@@ -1,0 +1,787 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Samuel Akinmarin — Portfolio</title>
+  <meta name="description" content="Samuel Akinmarin — Software Engineer, Cybersecurity Analyst &amp; Meteorologist based in Lagos, Nigeria.">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        outfit: ['Outfit', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace']
+      }
+    }
+  }
+}
+</script>
+  <style>
+html, body { height: 100%; margin: 0; scroll-behavior: smooth; }
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #333344; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #444455; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+@keyframes scanlines { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+@keyframes livePreviewScroll { 0%, 12% { transform: translateY(0); } 88%, 100% { transform: translateY(-440px); } }
+
+.fade-up { opacity: 0; animation: fadeUp 0.6s ease-out forwards; }
+.fade-up:nth-child(1) { animation-delay: 0.05s; }
+.fade-up:nth-child(2) { animation-delay: 0.1s; }
+.fade-up:nth-child(3) { animation-delay: 0.15s; }
+
+.project-card {
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+.project-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0,229,160,0.28);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25);
+}
+
+.cert-card {
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  min-height: 320px;
+}
+
+.cert-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0,229,160,0.28);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.22);
+}
+
+.cert-thumb {
+  width: 100%;
+  height: 180px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  object-fit: cover;
+  background: rgba(255,255,255,0.04);
+}
+
+.project-image {
+  width: 100%;
+  height: 200px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 0;
+  object-fit: cover;
+  display: block;
+}
+
+.auto-scroll-preview {
+  object-position: top center;
+  transition: object-position 2.8s linear;
+}
+
+.auto-scroll-preview:hover,
+.auto-scroll-preview:focus-visible {
+  object-position: bottom center;
+}
+
+.live-preview-wrap {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background: #0b0d16;
+}
+
+.live-preview-frame {
+  width: 100%;
+  height: 620px;
+  border: 0;
+  display: block;
+  background: #0b0d16;
+  pointer-events: none;
+  transform: translateY(0);
+  will-change: transform;
+  animation: livePreviewScroll 20s linear infinite alternate;
+  animation-play-state: paused;
+}
+
+.live-preview-wrap:hover .live-preview-frame,
+.live-preview-wrap:focus-within .live-preview-frame {
+  animation-play-state: running;
+}
+
+.live-preview-badge {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(10,10,15,0.72);
+  color: #c084fc;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  border: 1px solid rgba(192,132,252,0.28);
+}
+
+.skill-bar-fill {
+  animation: fadeUp 0.8s ease-out forwards;
+}
+
+.timeline-dot {
+  transition: all 0.2s ease;
+}
+.timeline-dot:hover {
+  transform: scale(1.3);
+}
+
+.nav-link {
+  position: relative;
+  transition: color 0.2s ease;
+}
+.nav-link:hover {
+  color: #00e5a0;
+}
+
+.btn-primary {
+  background: #00e5a0;
+  transition: all 0.2s ease;
+  box-shadow: none;
+}
+.btn-primary:hover {
+  background: #00c88a;
+  transform: none;
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: all 0.2s ease;
+}
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.site-preview-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 6, 11, 0.78);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 120;
+}
+
+.site-preview-overlay.open {
+  display: flex;
+}
+
+.site-preview-dialog {
+  width: min(1200px, 100%);
+  height: min(86vh, 840px);
+  background: #0f121b;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.site-preview-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #05070d;
+}
+
+.preview-btn {
+  margin-top: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,229,160,0.3);
+  background: rgba(0,229,160,0.08);
+  color: #00e5a0;
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.preview-btn:hover {
+  background: rgba(0,229,160,0.16);
+  border-color: rgba(0,229,160,0.5);
+}
+
+.preview-close-btn {
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.08);
+  color: #e0e0e8;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+</style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full overflow-auto" style="background: #0a0a0f; color: #e0e0e8; font-family: 'Outfit', sans-serif;">
+  <!-- NAV -->
+  <nav id="navbar" style="position: fixed; top: 0; left: 0; right: 0; z-index: 50; backdrop-filter: blur(16px); background: rgba(10,10,15,0.8); border-bottom: 1px solid rgba(255,255,255,0.04); transition: transform 0.3s;">
+   <div style="max-width: 1200px; margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between;">
+    <a href="#hero" style="font-weight: 700; font-size: 20px; color: #00e5a0; text-decoration: none; font-family: 'JetBrains Mono', monospace;">SA<span style="color: #e0e0e8;">.</span></a>
+    <div style="display: none;" class="md:!flex gap-8 items-center" id="nav-links">
+     <a href="#about" class="nav-link" style="color: #9a9ab0; text-decoration: none; font-size: 14px; font-weight: 500;">About</a> <a href="#experience" class="nav-link" style="color: #9a9ab0; text-decoration: none; font-size: 14px; font-weight: 500;">Experience</a> <a href="#projects" class="nav-link" style="color: #9a9ab0; text-decoration: none; font-size: 14px; font-weight: 500;">Projects</a> <a href="#skills" class="nav-link" style="color: #9a9ab0; text-decoration: none; font-size: 14px; font-weight: 500;">Skills</a> <a href="#contact" class="nav-link" style="color: #9a9ab0; text-decoration: none; font-size: 14px; font-weight: 500;">Contact</a>
+    </div><button id="menu-toggle" class="md:!hidden" style="background: none; border: none; color: #e0e0e8; cursor: pointer;"> <i data-lucide="menu" style="width: 24px; height: 24px;"></i> </button>
+   </div><!-- Mobile menu -->
+   <div id="mobile-menu" style="display: none; padding: 0 24px 16px; flex-direction: column; gap: 12px;" class="md:!hidden">
+    <a href="#about" class="mobile-nav" style="color: #9a9ab0; text-decoration: none; font-size: 15px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">About</a> <a href="#experience" class="mobile-nav" style="color: #9a9ab0; text-decoration: none; font-size: 15px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">Experience</a> <a href="#projects" class="mobile-nav" style="color: #9a9ab0; text-decoration: none; font-size: 15px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">Projects</a> <a href="#skills" class="mobile-nav" style="color: #9a9ab0; text-decoration: none; font-size: 15px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">Skills</a> <a href="#contact" class="mobile-nav" style="color: #9a9ab0; text-decoration: none; font-size: 15px; padding: 8px 0;">Contact</a>
+   </div>
+  </nav><!-- HERO -->
+  <section id="hero" style="min-height: 100%; display: flex; align-items: center; justify-content: center; padding: 120px 24px 80px;">
+   <div style="max-width: 800px; text-align: left;">
+    <p style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #00e5a0; margin: 0 0 16px; letter-spacing: 1px;">Lagos, Nigeria</p>
+    <h1 style="font-size: clamp(48px, 8vw, 72px); font-weight: 800; line-height: 1.1; margin: 0 0 24px; color: #ffffff;">My name is Samuel Akinmarin</h1>
+    <h2 id="hero-headline" style="font-size: clamp(36px, 6vw, 56px); font-weight: 700; line-height: 1.2; margin: 0 0 32px; color: #e0e0e8;"></h2>
+    <p id="hero-subtext" style="font-size: clamp(16px, 2vw, 20px); color: #9a9ab0; line-height: 1.8; margin: 0 0 48px; max-width: 700px;">A reliable and detail-oriented professional with experience in software development, technical support, and customer service. Known for strong problem-solving skills, effective communication, and the ability to complete tasks on schedule. Adaptable team player committed to delivering quality results and exceeding expectations.</p>
+    <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+    <a href="#projects" class="btn-primary" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 6px; color: #0a0a0f; font-weight: 600; font-size: 15px; text-decoration: none;">View Work</a> <a href="#contact" class="btn-secondary" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 6px; color: #e0e0e8; font-weight: 600; font-size: 15px; text-decoration: none;">Get in Touch</a> <a href="https://docs.google.com/document/d/1dEUe7ayvhPp9rw8Z6n-WB7nCYiiRINEc4d5h2oYnXqM/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 6px; color: #e0e0e8; font-weight: 600; font-size: 15px; text-decoration: none;"><i data-lucide="download" style="width: 16px; height: 16px;"></i>Download CV</a>
+    </div>
+   </div>
+  </section><!-- ABOUT -->
+  <section id="about" style="padding: 100px 24px; position: relative;">
+   <div style="max-width: 1000px; margin: 0 auto;">
+    <div class="fade-up" style="display: grid; grid-template-columns: 1fr; gap: 48px;">
+     <div>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #00e5a0; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 2px;">01 — About</p>
+      <h2 style="font-size: clamp(28px, 4vw, 42px); font-weight: 700; margin: 0 0 24px; color: #ffffff;">Where Science Meets Code</h2>
+      <p id="about-text" style="font-size: 17px; line-height: 1.8; color: #9a9ab0; margin: 0 0 24px;">My journey started with the sky — studying Meteorology and Climate Science at the Federal University of Technology, Akure. Understanding atmospheric systems taught me how to model complexity and make decisions from data. That same analytical drive led me into software engineering, where I build full-stack platforms that solve real problems, and cybersecurity, where I protect the systems people depend on. I bridge data, systems, and real-world impact — whether it's predicting rainfall with machine learning, building event management platforms, or analyzing threats using SIEM tools and the NIST framework.</p>
+      <div style="display: flex; gap: 32px; flex-wrap: wrap;">
+       <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(0,229,160,0.1); display: flex; align-items: center; justify-content: center;">
+         <i data-lucide="code-2" style="width: 20px; height: 20px; color: #00e5a0;"></i>
+        </div>
+        <div>
+         <p style="margin: 0; font-size: 14px; color: #7a7a90;">Software</p>
+         <p style="margin: 0; font-weight: 600; color: #e0e0e8;">Engineer</p>
+        </div>
+       </div>
+       <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(0,140,255,0.1); display: flex; align-items: center; justify-content: center;">
+         <i data-lucide="shield" style="width: 20px; height: 20px; color: #008cff;"></i>
+        </div>
+        <div>
+         <p style="margin: 0; font-size: 14px; color: #7a7a90;">Cybersecurity</p>
+         <p style="margin: 0; font-weight: 600; color: #e0e0e8;">Analyst</p>
+        </div>
+       </div>
+       <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(255,160,0,0.1); display: flex; align-items: center; justify-content: center;">
+         <i data-lucide="cloud-sun" style="width: 20px; height: 20px; color: #ffa000;"></i>
+        </div>
+        <div>
+         <p style="margin: 0; font-size: 14px; color: #7a7a90;">Meteorology</p>
+         <p style="margin: 0; font-weight: 600; color: #e0e0e8;">Scientist</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section><!-- EXPERIENCE -->
+  <section id="experience" style="padding: 100px 24px; background: rgba(255,255,255,0.01);">
+   <div style="max-width: 800px; margin: 0 auto;">
+    <p class="fade-up" style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #00e5a0; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 2px;">02 — Experience</p>
+    <h2 class="fade-up" style="font-size: clamp(28px, 4vw, 42px); font-weight: 700; margin: 0 0 48px; color: #ffffff;">Career Timeline</h2>
+    <div style="position: relative; padding-left: 32px;">
+     <!-- Timeline line -->
+     <div style="position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(to bottom, #00e5a0, rgba(0,229,160,0.05));"></div><!-- Item 1 -->
+     <div class="fade-up" style="position: relative; margin-bottom: 48px;">
+      <div class="timeline-dot" style="position: absolute; left: -32px; top: 6px; width: 16px; height: 16px; border-radius: 50%; background: #0a0a0f; border: 3px solid #00e5a0; cursor: default;"></div>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #00e5a0; margin: 0 0 6px;">Current</p>
+      <h3 style="font-size: 20px; font-weight: 600; margin: 0 0 4px; color: #ffffff;">Support Staff — Ministry of Environment, Lagos</h3>
+      <p style="font-size: 15px; color: #7a7a90; line-height: 1.7; margin: 0;">Weather forecasting and observation, climate risk analysis, environmental data reporting, and collaboration with meteorological teams for policy-level insights.</p>
+     </div><!-- Item 2 -->
+     <div class="fade-up" style="position: relative; margin-bottom: 48px;">
+      <div class="timeline-dot" style="position: absolute; left: -32px; top: 6px; width: 16px; height: 16px; border-radius: 50%; background: #0a0a0f; border: 3px solid #008cff; cursor: default;"></div>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #008cff; margin: 0 0 6px;">Project</p>
+      <h3 style="font-size: 20px; font-weight: 600; margin: 0 0 4px; color: #ffffff;">Full-Stack Developer — EventLifeHub</h3>
+      <p style="font-size: 15px; color: #7a7a90; line-height: 1.7; margin: 0;">Built a complete event management platform with Flask, PostgreSQL, user authentication, RSVP functionality, and admin dashboard for event creators.</p>
+     </div><!-- Item 3 -->
+     <div class="fade-up" style="position: relative; margin-bottom: 48px;">
+      <div class="timeline-dot" style="position: absolute; left: -32px; top: 6px; width: 16px; height: 16px; border-radius: 50%; background: #0a0a0f; border: 3px solid #ffa000; cursor: default;"></div>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #ffa000; margin: 0 0 6px;">Internship</p>
+      <h3 style="font-size: 20px; font-weight: 600; margin: 0 0 4px; color: #ffffff;">Intern — NIMET (Nigerian Meteorological Agency)</h3>
+      <p style="font-size: 15px; color: #7a7a90; line-height: 1.7; margin: 0;">Developed a METAR/TAF parser in Python for aviation weather analysis. Gained experience in synoptic observation and climate data interpretation.</p>
+     </div><!-- Item 4 -->
+     <div class="fade-up" style="position: relative; margin-bottom: 48px;">
+      <div class="timeline-dot" style="position: absolute; left: -32px; top: 6px; width: 16px; height: 16px; border-radius: 50%; background: #0a0a0f; border: 3px solid #c084fc; cursor: default;"></div>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #c084fc; margin: 0 0 6px;">Virtual</p>
+      <h3 style="font-size: 20px; font-weight: 600; margin: 0 0 4px; color: #ffffff;">Intern — Bright Network</h3>
+      <p style="font-size: 15px; color: #7a7a90; line-height: 1.7; margin: 0;">Exposure to AI strategy, cybersecurity frameworks, and digital transformation through workshops and industry sessions with leading tech firms.</p>
+     </div><!-- Item 5 -->
+     <div class="fade-up" style="position: relative; margin-bottom: 48px;">
+      <div class="timeline-dot" style="position: absolute; left: -32px; top: 6px; width: 16px; height: 16px; border-radius: 50%; background: #0a0a0f; border: 3px solid #f43f5e; cursor: default;"></div>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #f43f5e; margin: 0 0 6px;">Part-Time</p>
+      <h3 style="font-size: 20px; font-weight: 600; margin: 0 0 4px; color: #ffffff;">Cybersecurity Student</h3>
+      <p style="font-size: 14px; color: #7a7a90; margin: 0 0 8px;">December 2023 – May 2024</p>
+      <p style="font-size: 15px; color: #7a7a90; line-height: 1.7; margin: 0;">Completed Google Cybersecurity Certificate and specialized coursework in threat analysis, SIEM tools, and security frameworks.</p>
+     </div><!-- Item 6 -->
+     <div class="fade-up" style="position: relative; margin-bottom: 48px;">
+      <div class="timeline-dot" style="position: absolute; left: -32px; top: 6px; width: 16px; height: 16px; border-radius: 50%; background: #0a0a0f; border: 3px solid #38bdf8; cursor: default;"></div>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #38bdf8; margin: 0 0 6px;">Student</p>
+      <h3 style="font-size: 20px; font-weight: 600; margin: 0 0 4px; color: #ffffff;">AltSchool Backend Engineering</h3>
+      <p style="font-size: 14px; color: #7a7a90; margin: 0 0 8px;">April 2022 – June 2023</p>
+      <p style="font-size: 15px; color: #7a7a90; line-height: 1.7; margin: 0;">Developed data-driven processes for user engagement, built encryption APIs, contributed to open-source projects, and implemented automated unit testing resulting in 50% testing time reduction and 25% quality improvement.</p>
+     </div><!-- Item 7 -->
+     <div class="fade-up" style="position: relative; margin-bottom: 48px;">
+      <div class="timeline-dot" style="position: absolute; left: -32px; top: 6px; width: 16px; height: 16px; border-radius: 50%; background: #0a0a0f; border: 3px solid #06b6d4; cursor: default;"></div>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #06b6d4; margin: 0 0 6px;">Part-Time</p>
+      <h3 style="font-size: 20px; font-weight: 600; margin: 0 0 4px; color: #ffffff;">Customer Service — House of Sana, Lagos</h3>
+      <p style="font-size: 14px; color: #7a7a90; margin: 0 0 8px;">March 2022 – October 2022</p>
+      <p style="font-size: 15px; color: #7a7a90; line-height: 1.7; margin: 0;">Assessed vulnerability reports, managed operational budgets, and resolved complex technical issues reducing average handling time by 20% while ensuring seamless customer experiences.</p>
+     </div><!-- Item 8 -->
+     <div class="fade-up" style="position: relative;">
+      <div class="timeline-dot" style="position: absolute; left: -32px; top: 6px; width: 16px; height: 16px; border-radius: 50%; background: #0a0a0f; border: 3px solid #a78bfa; cursor: default;"></div>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #a78bfa; margin: 0 0 6px;">Role</p>
+      <h3 style="font-size: 20px; font-weight: 600; margin: 0 0 4px; color: #ffffff;">Hardware &amp; Software Engineer — Yetty Wisdom Global</h3>
+      <p style="font-size: 14px; color: #7a7a90; margin: 0 0 8px;">April 2020 – February 2021</p>
+      <p style="font-size: 15px; color: #7a7a90; line-height: 1.7; margin: 0;">Repaired hardware damages, installed Windows and macOS operating systems, and engineered hardware/software solutions to improve system performance and reliability.</p>
+     </div>
+    </div>
+   </div>
+  </section><!-- PROJECTS -->
+  <section id="projects" style="padding: 100px 24px;">
+   <div style="max-width: 1100px; margin: 0 auto;">
+    <p class="fade-up" style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #00e5a0; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 2px;">03 — Projects</p>
+    <h2 class="fade-up" style="font-size: clamp(28px, 4vw, 42px); font-weight: 700; margin: 0 0 48px; color: #ffffff;">Selected Work</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px;">
+     <!-- Project Cards -->
+    <div class="project-card fade-up" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 0; overflow: hidden;">
+    <a href="https://eventlifehub.com/" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none;"><img class="project-image auto-scroll-preview" src="https://s.wordpress.com/mshots/v1/https://eventlifehub.com/?w=1200" alt="Live preview of EventLifeHub" loading="lazy" onerror="if(!this.dataset.fallbackTried){this.dataset.fallbackTried='1'; this.src='https://image.thum.io/get/width/1200/crop/800/https://eventlifehub.com/'; return;} console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #00e5a0, #00b880)'; this.alt='EventLifeHub - Event Management Platform';" style="width: 100%; height: 180px; object-fit: cover; margin-bottom: 0;"></a>
+      <div style="padding: 20px;">
+       <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #00e5a0, #00b880); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+        <i data-lucide="calendar" style="width: 24px; height: 24px; color: #0a0a0f;"></i>
+       </div>
+       <h3 style="font-size: 20px; font-weight: 600; margin: 0 0 8px; color: #ffffff;">EventLifeHub</h3>
+       <p style="font-size: 14px; color: #7a7a90; line-height: 1.6; margin: 0 0 16px;">Full-stack event management platform with user auth, RSVP, event creation, and admin analytics dashboard.</p>
+       <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+        <span style="font-size: 11px; padding: 4px 10px; border-radius: 6px; background: rgba(0,229,160,0.08); color: #00e5a0; font-family: 'JetBrains Mono', monospace;">Flask</span> <span style="font-size: 11px; padding: 4px 10px; border-radius: 6px; background: rgba(0,229,160,0.08); color: #00e5a0; font-family: 'JetBrains Mono', monospace;">PostgreSQL</span> <span style="font-size: 11px; padding: 4px 10px; border-radius: 6px; background: rgba(0,229,160,0.08); color: #00e5a0; font-family: 'JetBrains Mono', monospace;">Auth</span>
+       </div>
+      <p style="font-size: 13px; color: #00e5a0; margin: 0;">⚡ 4 core modules live: auth, events, RSVP, analytics · <a href="https://eventlifehub.com/" target="_blank" rel="noopener noreferrer" style="color: #00e5a0; text-decoration: none;">Live site</a></p>
+      <button type="button" class="preview-btn" data-preview-url="https://eventlifehub.com/">Full Site Preview</button>
+      </div>
+     </div>
+     <div class="project-card fade-up" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 0; overflow: hidden;">
+      <img class="project-image" src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=500&amp;h=300&amp;fit=crop" alt="Rainfall Prediction ML dashboard" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #008cff, #0060cc)'; this.alt='Rainfall Prediction - Machine Learning Model';" style="width: 100%; height: 180px; object-fit: cover; margin-bottom: 0;">
+      <div style="padding: 20px;">
+       <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #008cff, #0060cc); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+        <i data-lucide="cloud-rain" style="width: 24px; height: 24px; color: #ffffff;"></i>
+       </div>
+       <h3 style="font-size: 20px; font-weight: 600; margin: 0 0 8px; color: #ffffff;">Rainfall Prediction ML</h3>
+       <p style="font-size: 14px; color: #7a7a90; line-height: 1.6; margin: 0 0 16px;">Machine learning model achieving 85% accuracy for rainfall prediction using historical climate data and feature engineering.</p>
+       <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+        <span style="font-size: 11px; padding: 4px 10px; border-radius: 6px; background: rgba(0,140,255,0.1); color: #008cff; font-family: 'JetBrains Mono', monospace;">Python</span> <span style="font-size: 11px; padding: 4px 10px; border-radius: 6px; background: rgba(0,140,255,0.1); color: #008cff; font-family: 'JetBrains Mono', monospace;">Scikit-learn</span> <span style="font-size: 11px; padding: 4px 10px; border-radius: 6px; background: rgba(0,140,255,0.1); color: #008cff; font-family: 'JetBrains Mono', monospace;">Pandas</span>
+       </div>
+      <p style="font-size: 13px; color: #008cff; margin: 0;">📊 85% prediction accuracy across historical weather records</p>
+      </div>
+     </div>
+     <div class="project-card fade-up" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 0; overflow: hidden;">
+      <a href="https://weather-5791.onrender.com/" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none;"><img class="project-image auto-scroll-preview" src="https://s.wordpress.com/mshots/v1/https://weather-5791.onrender.com/?w=1200" alt="Live preview of Weather Dashboard" loading="lazy" onerror="if(!this.dataset.fallbackTried){this.dataset.fallbackTried='1'; this.src='https://image.thum.io/get/width/1200/crop/800/https://weather-5791.onrender.com/'; return;} console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #ffa000, #cc7a00)'; this.alt='Weather Dashboard - Real-time Monitoring';" style="width: 100%; height: 180px; object-fit: cover; margin-bottom: 0;"></a>
+      <div style="padding: 20px;">
+       <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #ffa000, #cc7a00); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+        <i data-lucide="bar-chart-3" style="width: 24px; height: 24px; color: #0a0a0f;"></i>
+       </div>
+       <h3 style="font-size: 20px; font-weight: 600; margin: 0 0 8px; color: #ffffff;">Weather Dashboard</h3>
+       <p style="font-size: 14px; color: #7a7a90; line-height: 1.6; margin: 0 0 16px;">Real-time weather monitoring dashboard pulling live data from weather APIs with interactive visualizations.</p>
+       <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+        <span style="font-size: 11px; padding: 4px 10px; border-radius: 6px; background: rgba(255,160,0,0.1); color: #ffa000; font-family: 'JetBrains Mono', monospace;">Python</span> <span style="font-size: 11px; padding: 4px 10px; border-radius: 6px; background: rgba(255,160,0,0.1); color: #ffa000; font-family: 'JetBrains Mono', monospace;">APIs</span> <span style="font-size: 11px; padding: 4px 10px; border-radius: 6px; background: rgba(255,160,0,0.1); color: #ffa000; font-family: 'JetBrains Mono', monospace;">Flask</span>
+       </div>
+      <p style="font-size: 13px; color: #ffa000; margin: 0;">🌍 Real-time API feeds with interactive weather visuals · <a href="https://weather-5791.onrender.com/" target="_blank" rel="noopener noreferrer" style="color: #ffa000; text-decoration: none;">Live site</a></p>
+          <button type="button" class="preview-btn" data-preview-url="https://weather-5791.onrender.com/">Full Site Preview</button>
+      </div>
+     </div>
+     <div class="project-card fade-up" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 0; overflow: hidden;">
+      <a href="https://smart-library-system-5qe9.onrender.com/" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none;"><div class="live-preview-wrap"><iframe class="live-preview-frame" src="https://smart-library-system-5qe9.onrender.com/" title="Library Management System live preview" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><span class="live-preview-badge">Live preview</span></div></a>
+      <div style="padding: 20px;">
+       <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #c084fc, #9333ea); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+        <i data-lucide="book-open" style="width: 24px; height: 24px; color: #ffffff;"></i>
+       </div>
+       <h3 style="font-size: 20px; font-weight: 600; margin: 0 0 8px; color: #ffffff;">Library Management System</h3>
+       <p style="font-size: 14px; color: #7a7a90; line-height: 1.6; margin: 0 0 16px;">CRUD-based library system with book cataloging, user management, and borrowing/return tracking.</p>
+       <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+        <span style="font-size: 11px; padding: 4px 10px; border-radius: 6px; background: rgba(192,132,252,0.1); color: #c084fc; font-family: 'JetBrains Mono', monospace;">Python</span> <span style="font-size: 11px; padding: 4px 10px; border-radius: 6px; background: rgba(192,132,252,0.1); color: #c084fc; font-family: 'JetBrains Mono', monospace;">SQL</span>
+       </div>
+      <p style="font-size: 13px; color: #c084fc; margin: 0;">📚 4 workflows: catalog, users, borrowing, returns · <a href="https://smart-library-system-5qe9.onrender.com/" target="_blank" rel="noopener noreferrer" style="color: #c084fc; text-decoration: none;">Live site</a></p>
+       <a href="https://smart-library-system-5qe9.onrender.com/" target="_blank" rel="noopener noreferrer" class="preview-btn" style="display: inline-block; text-decoration: none;">Open Live Site</a>
+      </div>
+     </div>
+     <div class="project-card fade-up" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 0; overflow: hidden;">
+        <a href="https://cutbly-1.onrender.com/" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none;"><div class="live-preview-wrap"><iframe class="live-preview-frame" src="https://cutbly-1.onrender.com/" title="Cutbly URL Shortener live preview" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><span class="live-preview-badge">Live preview</span></div></a>
+      <div style="padding: 20px;">
+       <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #f43f5e, #be123c); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+        <i data-lucide="link" style="width: 24px; height: 24px; color: #ffffff;"></i>
+       </div>
+         <h3 style="font-size: 20px; font-weight: 600; margin: 0 0 8px; color: #ffffff;">Cutbly — URL Shortener</h3>
+       <p style="font-size: 14px; color: #7a7a90; line-height: 1.6; margin: 0 0 16px;">Custom URL shortening service with analytics tracking, click counting, and QR code generation.</p>
+       <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+        <span style="font-size: 11px; padding: 4px 10px; border-radius: 6px; background: rgba(244,63,94,0.1); color: #f43f5e; font-family: 'JetBrains Mono', monospace;">Flask</span> <span style="font-size: 11px; padding: 4px 10px; border-radius: 6px; background: rgba(244,63,94,0.1); color: #f43f5e; font-family: 'JetBrains Mono', monospace;">PostgreSQL</span>
+       </div>
+         <p style="font-size: 13px; color: #f43f5e; margin: 0;">🔗 Click tracking plus per-link QR generation · <a href="https://cutbly-1.onrender.com/" target="_blank" rel="noopener noreferrer" style="color: #f43f5e; text-decoration: none;">Live site</a></p>
+        <button type="button" class="preview-btn" data-preview-url="https://cutbly-1.onrender.com/">Full Site Preview</button>
+      </div>
+     </div>
+     <div class="project-card fade-up" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 0; overflow: hidden;">
+      <img class="project-image" src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&amp;h=300&amp;fit=crop" alt="Student Management API interface" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #38bdf8, #0284c7)'; this.alt='Student Management - RESTful API';" style="width: 100%; height: 180px; object-fit: cover; margin-bottom: 0;">
+      <div style="padding: 20px;">
+       <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #38bdf8, #0284c7); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+        <i data-lucide="users" style="width: 24px; height: 24px; color: #0a0a0f;"></i>
+       </div>
+       <h3 style="font-size: 20px; font-weight: 600; margin: 0 0 8px; color: #ffffff;">Student Management API</h3>
+       <p style="font-size: 14px; color: #7a7a90; line-height: 1.6; margin: 0 0 16px;">RESTful API for managing student records with CRUD endpoints, authentication, and structured responses.</p>
+       <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+        <span style="font-size: 11px; padding: 4px 10px; border-radius: 6px; background: rgba(56,189,248,0.1); color: #38bdf8; font-family: 'JetBrains Mono', monospace;">Flask</span> <span style="font-size: 11px; padding: 4px 10px; border-radius: 6px; background: rgba(56,189,248,0.1); color: #38bdf8; font-family: 'JetBrains Mono', monospace;">REST API</span>
+       </div>
+         <p style="font-size: 13px; color: #38bdf8; margin: 0 0 12px;">🛡️ Structured CRUD endpoints with auth-ready API design</p>
+         <a href="https://github.com/Samdami/flask-student-managements-api" target="_blank" rel="noopener noreferrer" class="preview-btn" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
+          <i data-lucide="github" style="width: 14px; height: 14px;"></i>
+          Source Code
+         </a>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section><!-- SKILLS -->
+    <div id="site-preview-overlay" class="site-preview-overlay" role="dialog" aria-modal="true" aria-label="Live site preview">
+     <div class="site-preview-dialog">
+      <div class="site-preview-header">
+       <span id="site-preview-label" style="font-size: 12px; color: #9a9ab0; font-family: 'JetBrains Mono', monospace;">Preview: loading...</span>
+       <div style="display: flex; align-items: center; gap: 8px;"><a id="site-preview-link" href="about:blank" target="_blank" rel="noopener noreferrer" style="font-size: 12px; color: #00e5a0; text-decoration: none; font-family: 'JetBrains Mono', monospace;">Open in new tab</a><button id="site-preview-close" type="button" class="preview-close-btn">Close</button>
+       </div>
+      </div><iframe id="site-preview-frame" class="site-preview-frame" src="about:blank" title="EventLifeHub full site preview" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+     </div>
+    </div>
+  <section id="skills" style="padding: 100px 24px; background: rgba(255,255,255,0.01);">
+   <div style="max-width: 900px; margin: 0 auto;">
+    <p class="fade-up" style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #00e5a0; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 2px;">04 — Skills</p>
+    <h2 class="fade-up" style="font-size: clamp(28px, 4vw, 42px); font-weight: 700; margin: 0 0 48px; color: #ffffff;">Technical Arsenal</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 32px;">
+     <!-- Programming -->
+     <div class="fade-up" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 24px;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+       <i data-lucide="terminal" style="width: 20px; height: 20px; color: #00e5a0;"></i>
+       <h3 style="font-size: 16px; font-weight: 600; margin: 0; color: #ffffff;">Programming</h3>
+      </div>
+      <div id="skills-programming"></div>
+     </div><!-- Frameworks -->
+     <div class="fade-up" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 24px;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+       <i data-lucide="box" style="width: 20px; height: 20px; color: #008cff;"></i>
+       <h3 style="font-size: 16px; font-weight: 600; margin: 0; color: #ffffff;">Frameworks</h3>
+      </div>
+      <div id="skills-frameworks"></div>
+     </div><!-- Cybersecurity -->
+     <div class="fade-up" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 24px;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+       <i data-lucide="shield-check" style="width: 20px; height: 20px; color: #ffa000;"></i>
+       <h3 style="font-size: 16px; font-weight: 600; margin: 0; color: #ffffff;">Cybersecurity</h3>
+      </div>
+      <div id="skills-cyber"></div>
+     </div><!-- Tools -->
+     <div class="fade-up" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 24px;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+       <i data-lucide="wrench" style="width: 20px; height: 20px; color: #c084fc;"></i>
+       <h3 style="font-size: 16px; font-weight: 600; margin: 0; color: #ffffff;">Tools</h3>
+      </div>
+      <div id="skills-tools"></div>
+     </div>
+    </div>
+   </div>
+  </section><!-- CERTIFICATIONS -->
+  <section id="certifications" style="padding: 100px 24px;">
+   <div style="max-width: 900px; margin: 0 auto;">
+    <p class="fade-up" style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #00e5a0; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 2px;">05 — Certifications</p>
+    <h2 class="fade-up" style="font-size: clamp(28px, 4vw, 42px); font-weight: 700; margin: 0 0 48px; color: #ffffff;">Credentials</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px;">
+    <a href="https://www.coursera.org/account/accomplishments/professional-cert/6SLNMXBNR96W" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit; display: block;">
+    <div class="cert-card fade-up" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 24px; text-align: center;">
+      <img class="cert-thumb" src="https://s.wordpress.com/mshots/v1/https://www.coursera.org/account/accomplishments/professional-cert/6SLNMXBNR96W?w=1200" alt="Google Cybersecurity Professional Certificate preview" loading="lazy" onerror="if(!this.dataset.fallbackTried){this.dataset.fallbackTried='1'; this.src='https://image.thum.io/get/width/1200/crop/800/https://www.coursera.org/account/accomplishments/professional-cert/6SLNMXBNR96W'; return;} console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #00e5a0, #00b880)'; this.alt='Google Cybersecurity Professional Certificate';">
+      <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 4px; color: #ffffff;">Google Cybersecurity</h3>
+      <p style="font-size: 13px; color: #7a7a90; margin: 0;">Professional Certificate</p>
+     </div>
+    </a>
+    <a href="AltSchool%20Backend.png" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit; display: block;">
+    <div class="cert-card fade-up" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 24px; text-align: center;">
+    <img class="cert-thumb" src="AltSchool%20Backend.png" alt="AltSchool Backend Engineering Certificate" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.display='none';">
+      <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 4px; color: #ffffff;">AltSchool Backend</h3>
+      <p style="font-size: 13px; color: #7a7a90; margin: 0;">Engineering Certificate</p>
+     </div>
+    </a>
+    <a href="DevCareer%20.png" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit; display: block;">
+    <div class="cert-card fade-up" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 24px; text-align: center;">
+    <img class="cert-thumb" src="DevCareer%20.png" alt="DevCareer Frontend Development Certificate" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.display='none';">
+     <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 4px; color: #ffffff;">DevCareer Tech Program</h3>
+     <p style="font-size: 13px; color: #7a7a90; margin: 0;">Frontend Engineering, DCTP / AltSchool Africa</p>
+    </div>
+    </a>
+    <a href="https://www.credly.com/badges/d61f7907-8905-48b1-b8d6-c8d0eb1b8418/linked_in_profile" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit; display: block;">
+    <div class="cert-card fade-up" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 24px; text-align: center;">
+      <img class="cert-thumb" src="https://s.wordpress.com/mshots/v1/https://www.credly.com/badges/d61f7907-8905-48b1-b8d6-c8d0eb1b8418/linked_in_profile?w=1200" alt="Cisco Cybersecurity certificate badge preview" loading="lazy" onerror="if(!this.dataset.fallbackTried){this.dataset.fallbackTried='1'; this.src='https://image.thum.io/get/width/1200/crop/800/https://www.credly.com/badges/d61f7907-8905-48b1-b8d6-c8d0eb1b8418/linked_in_profile'; return;} console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #38bdf8, #0284c7)'; this.alt='Cisco Cybersecurity certificate';">
+      <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 4px; color: #ffffff;">Cisco Cybersecurity</h3>
+      <p style="font-size: 13px; color: #7a7a90; margin: 0;">Certifications</p>
+     </div>
+    </a>
+    <a href="ec%20council.png" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit; display: block;">
+     <div class="cert-card fade-up" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 24px; text-align: center;">
+      <img class="cert-thumb" src="ec%20council.png" alt="EC-Council Network Defense Essentials Certificate" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.display='none';">
+      <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 4px; color: #ffffff;">EC-Council NDE</h3>
+      <p style="font-size: 13px; color: #7a7a90; margin: 0;">Network Defense</p>
+     </div>
+    </a>
+    </div>
+   </div>
+  </section><!-- EDUCATION -->
+  <section style="padding: 60px 24px 100px; background: rgba(255,255,255,0.01);">
+   <div style="max-width: 700px; margin: 0 auto; text-align: center;" class="fade-up">
+    <p style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #00e5a0; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 2px;">06 — Education</p>
+    <h2 style="font-size: clamp(28px, 4vw, 42px); font-weight: 700; margin: 0 0 24px; color: #ffffff;">Academic Foundation</h2>
+    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 32px;">
+     <div style="font-size: 40px; margin-bottom: 16px;">
+      🎓
+     </div>
+     <h3 style="font-size: 22px; font-weight: 600; margin: 0 0 8px; color: #ffffff;">B.Tech — Meteorology &amp; Climate Science</h3>
+     <p style="font-size: 16px; color: #00e5a0; margin: 0 0 4px;">Federal University of Technology, Akure</p>
+     <p style="font-size: 14px; color: #7a7a90; margin: 0;">January 2019 – November 2024</p>
+    </div>
+   </div>
+  </section><!-- CONTACT -->
+  <section id="contact" style="padding: 100px 24px;">
+   <div style="max-width: 600px; margin: 0 auto; text-align: center;" class="fade-up">
+    <p style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #00e5a0; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 2px;">07 — Contact</p>
+    <h2 style="font-size: clamp(28px, 4vw, 42px); font-weight: 700; margin: 0 0 16px; color: #ffffff;">Let's Connect</h2>
+    <p style="font-size: 17px; color: #7a7a90; line-height: 1.7; margin: 0 0 40px;">Have a project in mind, or want to discuss weather, security, or code? Reach out.</p>
+    <div style="display: flex; flex-direction: column; gap: 16px; align-items: center;">
+    <a id="contact-email-link" href="mailto:samakinmarin@gmail.com" style="display: flex; align-items: center; gap: 12px; color: #e0e0e8; text-decoration: none; font-size: 16px; padding: 16px 28px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); width: 100%; max-width: 380px; transition: border-color 0.3s;" onmouseover="this.style.borderColor='rgba(0,229,160,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)'"> <i data-lucide="mail" style="width: 20px; height: 20px; color: #00e5a0;"></i> <span id="contact-email-text">samakinmarin@gmail.com</span> </a> <a href="tel:+2349037904997" style="display: flex; align-items: center; gap: 12px; color: #e0e0e8; text-decoration: none; font-size: 16px; padding: 16px 28px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); width: 100%; max-width: 380px; transition: border-color 0.3s;" onmouseover="this.style.borderColor='rgba(0,229,160,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)'"> <i data-lucide="phone" style="width: 20px; height: 20px; color: #00e5a0;"></i> +2349037904997 </a> <a href="https://docs.google.com/document/d/1dEUe7ayvhPp9rw8Z6n-WB7nCYiiRINEc4d5h2oYnXqM/edit?usp=sharing" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 12px; color: #e0e0e8; text-decoration: none; font-size: 16px; padding: 16px 28px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); width: 100%; max-width: 380px; transition: border-color 0.3s;" onmouseover="this.style.borderColor='rgba(0,229,160,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)'"> <i data-lucide="download" style="width: 20px; height: 20px; color: #00e5a0;"></i> Download CV </a> <a href="https://github.com/Samdami" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 12px; color: #e0e0e8; text-decoration: none; font-size: 16px; padding: 16px 28px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); width: 100%; max-width: 380px; transition: border-color 0.3s;" onmouseover="this.style.borderColor='rgba(0,229,160,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)'"> <i data-lucide="github" style="width: 20px; height: 20px; color: #00e5a0;"></i> GitHub </a> <a href="https://www.linkedin.com/in/samdami" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 12px; color: #e0e0e8; text-decoration: none; font-size: 16px; padding: 16px 28px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); width: 100%; max-width: 380px; transition: border-color 0.3s;" onmouseover="this.style.borderColor='rgba(0,229,160,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)'"> <i data-lucide="linkedin" style="width: 20px; height: 20px; color: #00e5a0;"></i> LinkedIn </a>
+    </div>
+   </div>
+  </section><!-- FOOTER -->
+  <footer style="padding: 32px 24px; border-top: 1px solid rgba(255,255,255,0.04); text-align: center;">
+   <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 16px;">
+    <div style="display: flex; gap: 24px;">
+    <a href="https://github.com/Samdami" target="_blank" rel="noopener noreferrer" style="color: #7a7a90; transition: color 0.3s;" onmouseover="this.style.color='#00e5a0'" onmouseout="this.style.color='#7a7a90'"><i data-lucide="github" style="width: 20px; height: 20px;"></i></a> <a href="https://www.linkedin.com/in/samdami" target="_blank" rel="noopener noreferrer" style="color: #7a7a90; transition: color 0.3s;" onmouseover="this.style.color='#00e5a0'" onmouseout="this.style.color='#7a7a90'"><i data-lucide="linkedin" style="width: 20px; height: 20px;"></i></a> <a href="mailto:samakinmarin@gmail.com" style="color: #7a7a90; transition: color 0.3s;" onmouseover="this.style.color='#00e5a0'" onmouseout="this.style.color='#7a7a90'"><i data-lucide="mail" style="width: 20px; height: 20px;"></i></a>
+    </div>
+    <p id="footer-text" style="font-size: 13px; color: #5a5a6e; margin: 0;">© 2025 Samuel Akinmarin. Built with purpose.</p>
+   </div>
+  </footer>
+  <script>
+// Skills data
+const skillsData = {
+  programming: [
+    { name: 'Python', level: 90, color: '#00e5a0' },
+    { name: 'HTML/CSS', level: 85, color: '#00e5a0' },
+    { name: 'SQL', level: 80, color: '#00e5a0' },
+    { name: 'JavaScript', level: 70, color: '#00e5a0' }
+  ],
+  frameworks: [
+    { name: 'Flask', level: 88, color: '#008cff' },
+    { name: 'Django', level: 72, color: '#008cff' }
+  ],
+  cyber: [
+    { name: 'NIST Framework', level: 85, color: '#ffa000' },
+    { name: 'Threat Analysis', level: 80, color: '#ffa000' },
+    { name: 'SIEM / IDS', level: 75, color: '#ffa000' }
+  ],
+  tools: [
+    { name: 'Git', level: 90, color: '#c084fc' },
+    { name: 'Postman', level: 85, color: '#c084fc' },
+    { name: 'Nmap', level: 75, color: '#c084fc' },
+    { name: 'SQLMap', level: 70, color: '#c084fc' }
+  ]
+};
+
+function renderSkills(containerId, skills) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = skills.map(s => `
+    <div style="margin-bottom: 14px;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+        <span style="font-size: 13px; color: #e0e0e8; font-family: 'JetBrains Mono', monospace;">${s.name}</span>
+        <span style="font-size: 12px; color: #7a7a90;">${s.level}%</span>
+      </div>
+      <div style="height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden;">
+        <div class="skill-bar-fill" style="height: 100%; width: ${s.level}%; background: ${s.color}; border-radius: 3px;"></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+renderSkills('skills-programming', skillsData.programming);
+renderSkills('skills-frameworks', skillsData.frameworks);
+renderSkills('skills-cyber', skillsData.cyber);
+renderSkills('skills-tools', skillsData.tools);
+
+// Full site preview modal for project cards.
+const previewOverlay = document.getElementById('site-preview-overlay');
+const previewFrame = document.getElementById('site-preview-frame');
+const previewClose = document.getElementById('site-preview-close');
+const previewLabel = document.getElementById('site-preview-label');
+const previewLink = document.getElementById('site-preview-link');
+
+document.querySelectorAll('[data-preview-url]').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const siteUrl = btn.getAttribute('data-preview-url');
+    if (!siteUrl || !previewOverlay || !previewFrame) return;
+    const host = (() => {
+      try {
+        return new URL(siteUrl).hostname;
+      } catch {
+        return siteUrl;
+      }
+    })();
+
+    if (previewLabel) {
+      previewLabel.textContent = `Preview: ${host}`;
+    }
+    if (previewLink) {
+      previewLink.setAttribute('href', siteUrl);
+    }
+    previewFrame.title = `${host} full site preview`;
+    previewFrame.src = siteUrl;
+    previewOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+if (previewClose && previewOverlay && previewFrame) {
+  previewClose.addEventListener('click', () => {
+    previewOverlay.classList.remove('open');
+    previewFrame.src = 'about:blank';
+    document.body.style.overflow = 'auto';
+  });
+
+  previewOverlay.addEventListener('click', (event) => {
+    if (event.target !== previewOverlay) return;
+    previewOverlay.classList.remove('open');
+    previewFrame.src = 'about:blank';
+    document.body.style.overflow = 'auto';
+  });
+}
+
+// Mobile menu
+document.getElementById('menu-toggle').addEventListener('click', () => {
+  const menu = document.getElementById('mobile-menu');
+  menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+});
+document.querySelectorAll('.mobile-nav').forEach(a => {
+  a.addEventListener('click', () => {
+    document.getElementById('mobile-menu').style.display = 'none';
+  });
+});
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Element SDK
+const defaultConfig = {
+  background_color: '#0a0a0f',
+  accent_color: '#00e5a0',
+  text_color: '#e0e0e8',
+  surface_color: 'rgba(255,255,255,0.03)',
+  muted_color: '#7a7a90',
+  font_family: 'Outfit',
+  font_size: 16,
+  hero_headline: 'Building Intelligent Systems for Weather, Security & Scalable Applications',
+  hero_subtext: 'A reliable and detail-oriented professional with experience in software development, technical support, and customer service. Known for strong problem-solving skills, effective communication, and the ability to complete tasks on schedule. Adaptable team player committed to delivering quality results and exceeding expectations.',
+  about_text: 'My journey started with the sky — studying Meteorology and Climate Science at the Federal University of Technology, Akure. Understanding atmospheric systems taught me how to model complexity and make decisions from data. That same analytical drive led me into software engineering, where I build full-stack platforms that solve real problems, and cybersecurity, where I protect the systems people depend on. I bridge data, systems, and real-world impact — whether it\'s predicting rainfall with machine learning, building event management platforms, or analyzing threats using SIEM tools and the NIST framework.',
+  contact_email: 'samakinmarin@gmail.com',
+  footer_text: '© 2025 Samuel Akinmarin. Built with purpose.'
+};
+
+async function onConfigChange(config) {
+  const c = { ...defaultConfig, ...config };
+
+  document.body.style.background = c.background_color;
+  document.body.style.color = c.text_color;
+  document.body.style.fontFamily = `${c.font_family}, Outfit, sans-serif`;
+
+  const baseSize = c.font_size || 16;
+
+  const headline = document.getElementById('hero-headline');
+  if (headline) { headline.textContent = c.hero_headline; }
+
+  const subtext = document.getElementById('hero-subtext');
+  if (subtext) { subtext.textContent = c.hero_subtext; subtext.style.fontSize = `${baseSize * 1.1}px`; }
+
+  const about = document.getElementById('about-text');
+  if (about) { about.textContent = c.about_text; about.style.fontSize = `${baseSize * 1.06}px`; }
+
+  const emailLink = document.getElementById('contact-email-link');
+  const emailText = document.getElementById('contact-email-text');
+  if (emailLink) emailLink.href = `mailto:${c.contact_email}`;
+  if (emailText) emailText.textContent = c.contact_email;
+
+  const footer = document.getElementById('footer-text');
+  if (footer) footer.textContent = c.footer_text;
+}
+
+function mapToCapabilities(config) {
+  const c = { ...defaultConfig, ...config };
+  return {
+    recolorables: [
+      { get: () => c.background_color, set: (v) => { c.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+      { get: () => c.accent_color, set: (v) => { c.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); } },
+      { get: () => c.text_color, set: (v) => { c.text_color = v; window.elementSdk.setConfig({ text_color: v }); } }
+    ],
+    borderables: [],
+    fontEditable: {
+      get: () => c.font_family,
+      set: (v) => { c.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+    },
+    fontSizeable: {
+      get: () => c.font_size,
+      set: (v) => { c.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+    }
+  };
+}
+
+function mapToEditPanelValues(config) {
+  const c = { ...defaultConfig, ...config };
+  return new Map([
+    ['hero_headline', c.hero_headline],
+    ['hero_subtext', c.hero_subtext],
+    ['about_text', c.about_text],
+    ['contact_email', c.contact_email],
+    ['footer_text', c.footer_text]
+  ]);
+}
+
+if (window.elementSdk) {
+  window.elementSdk.init({ defaultConfig, onConfigChange, mapToCapabilities, mapToEditPanelValues });
+}
+
+lucide.createIcons();
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e9c64e076480c39',t:'MTc3NTc2NzkzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
